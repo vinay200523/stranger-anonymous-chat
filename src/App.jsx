@@ -5,7 +5,8 @@ import {MessageCircle,Video,Shuffle,Send,Mic,MicOff,VideoOff,Flag,ShieldCheck,Gl
 const socket=io(import.meta.env.VITE_SERVER_URL||undefined,{autoConnect:false});
 export default function App(){
  const [mode,setMode]=useState("text"),[status,setStatus]=useState("idle"),[messages,setMessages]=useState([]),[draft,setDraft]=useState(""),[connected,setConnected]=useState(false),[muted,setMuted]=useState(false),[cameraOff,setCameraOff]=useState(false);
- const localRef=useRef(null),remoteRef=useRef(null),pcRef=useRef(null),streamRef=useRef(null),chatRef=useRef(null),modeRef=useRef(mode);\n useEffect(()=>{modeRef.current=mode;},[mode]);
+ const localRef=useRef(null),remoteRef=useRef(null),pcRef=useRef(null),streamRef=useRef(null),chatRef=useRef(null),modeRef=useRef(mode);
+ useEffect(()=>{modeRef.current=mode;},[mode]);
  useEffect(()=>{
   socket.connect();
   socket.on("waiting",()=>{setStatus("searching");setConnected(false);});
