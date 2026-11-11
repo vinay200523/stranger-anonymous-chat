@@ -2,10 +2,16 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
 const app=express();
 app.use(cors({origin:true}));
 app.get("/health",(_req,res)=>res.json({ok:true,service:"stranger-chat"}));
+if (existsSync(path.resolve("dist"))) {
+  app.use(express.static(path.resolve("dist")));
+  app.get("*",(_req,res)=>res.sendFile(path.resolve("dist/index.html")));
+}
 const httpServer=createServer(app);
 const io=new Server(httpServer,{cors:{origin:"*",methods:["GET","POST"]}});
 const waiting={text:null,video:null};
